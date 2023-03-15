@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="mappers.check">
+ 	
+ 	<!-- 체크리스트 등록하기 -->
+ 	<insert id="insertCheck">
+ 		insert into tbl_check(v_hall,v_dress,v_photo,v_beauty,v_shoot,v_card,v_helper,v_flower,v_final,v_end)
+ 		values (#{v_hall,jdbcType=VARCHAR},#{v_dress,jdbcType=VARCHAR},#{v_photo,jdbcType=VARCHAR},#{v_beauty,jdbcType=VARCHAR},#{v_shoot,jdbcType=VARCHAR},#{v_card,jdbcType=VARCHAR},#{v_helper,jdbcType=VARCHAR},#{v_flower,jdbcType=VARCHAR},#{v_final,jdbcType=VARCHAR},#{v_end,jdbcType=VARCHAR})
+ 	</insert>
+ 	
+ 	
+ 	<!-- 체크리스트 가져오기 -->
+ 	<select id="listCheck" resultType="CheckVo">
+ 		select * from tbl_check
+ 	</select>
+ 	
+ </mapper>

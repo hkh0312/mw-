@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="mappers.like">
+	<insert id="sendLike">
+		insert into tbl_Ylike(qno, clientId)
+		values (#{qno}, #{clientId})
+	</insert>
+
+	<select id="getLikeCount" resultType="int">
+		select count(*) from tbl_Ylike
+		where qno = #{qno}
+	</select>
+
+	<select id="isLike" resultType="int">
+		select count(*) from tbl_Ylike
+		where qno = #{qno}
+		and clientId = #{clientId}
+	</select>
+	<delete id="delLike">
+		delete from tbl_Ylike
+		where qno = #{qno}
+		and clientId= #{clientId}
+	</delete>
+	<select id="likecheck" resultType="int">
+		select count(*) from tbl_Ylike
+		where clientId = #{clientId}
+	</select>
+	<delete id="delete">
+		delete from tbl_Ylike
+		where clientId= #{clientId}
+	</delete>
+</mapper>

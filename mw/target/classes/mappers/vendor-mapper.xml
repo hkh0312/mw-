@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mappers.vendor">
+
+ 	<!-- 카테고리별 목록조회 --> 
+	<select id="listVendor" resultType="VendorVo">
+		select * from
+			(select rownum rnum, a.* from
+				(select * from tbl_vendors
+ 				<if test="catecode neq null"> 
+ 					where catecode = #{catecode}
+<!--  					<choose> -->
+<!-- 	 					<when test="pagingVo.orderby eq 'v_score'"> -->
+<!-- 							order by v_score desc -->
+<!-- 						</when> -->
+<!-- 						<when test="pagingVo.orderby eq 'v_no'"> -->
+<!-- 							order by v_no desc -->
+<!-- 						</when> -->
+<!-- 						<when test="pagingVo.orderby eq 'v_name'"> -->
+<!-- 							order by v_name asc -->
+<!-- 						</when>						 -->
+<!-- 						<otherwise> -->
+<!-- 							order by v_no desc -->
+<!-- 						</otherwise> -->
+<!-- 					</choose>			 -->
+ 				</if>
+ 				<if test="catecode eq null">
+	 				<choose>
+						<when test="pagingVo.orderby eq 'v_score'">
+							order by v_score desc
+						</when>
+						<when test="pagingVo.orderby eq 'v_no'">
+							order by v_no desc
+						</when>
+						<when test="pagingVo.orderby eq 'v_name'">
+							order by v_name asc
+						</when>	
+						<otherwise>
+							order by v_no desc
+						</otherwise>
+					</choose>
+				</if>	
+			)a)
+		where rnum between ${pagingVo.startRow} and ${pagingVo.endRow}
+ 	</select>
+	
+	<!-- 글 갯수 -->
+	<select id="getCount" resultType="int">
+		select count(*) from tbl_vendors
+		<if test="catecode neq null"> 
+ 			where catecode = #{catecode}	
+ 		</if> 
+	</select>
+</mapper>

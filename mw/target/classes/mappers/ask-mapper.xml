@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="mappers.ask">
+ 	<insert id="insert">
+ 		insert into tbl_Yask(recipient, question, sender, writedate)
+ 					values(#{recipient}, #{question, jdbcType=VARCHAR}, 
+ 							#{sender, jdbcType=VARCHAR}, sysdate)
+ 	</insert>
+ 	<!-- user table과 합쳐야 함 -->
+ 	<select id="search" resultType="Y_AskVo">
+ 		select * from tbl_Yask
+ 			where recipient = #{recipient}
+ 			order by writedate desc
+ 	</select>
+ </mapper>

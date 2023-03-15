@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="mappers.story">
+ 
+	<insert id="insert">
+		insert into tbl_Ystory(clientId, story_one_title, story_one_con, story_one_pic, story_two_title, story_two_con, story_two_pic)
+		values(#{clientId, jdbcType=VARCHAR}, #{story_one_title, jdbcType=VARCHAR}, #{story_one_con, jdbcType=VARCHAR}, 
+				#{story_one_pic, jdbcType=VARCHAR}, #{story_two_title, jdbcType=VARCHAR}, #{story_two_con, jdbcType=VARCHAR}, 
+				#{story_two_pic, jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="search" resultType="Y_StoryVo">
+	select * from tbl_Ystory
+		where clientId = #{clientId}
+	</select>
+	
+	<update id="update">
+		update tbl_Ystory set
+			story_one_title = #{story_one_title},
+			story_one_con = #{story_one_con},
+		<choose>
+			<when test="story_one_pic == null">	
+				story_one_pic = story_one_pic,
+			</when>
+			<when test="story_one_pic != null">	
+				story_one_pic = #{story_one_pic},
+			</when>
+		</choose>
+			story_two_title = #{story_two_title},
+			story_two_con = #{story_two_con},
+		<choose>
+			<when test="story_two_pic == null">
+				story_two_pic = story_two_pic
+			</when>
+			<when test="story_two_pic != null">
+				story_two_pic = #{story_two_pic}
+			</when>			
+		</choose>
+		where clientId = #{clientId}
+	</update>
+	
+	<delete id="delete">
+		delete from tbl_Ystory
+		where clientId = #{clientId}
+	</delete>
+</mapper>

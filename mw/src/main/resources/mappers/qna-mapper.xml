@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="mappers.qna">
+ 
+ 	<insert id="insert">
+ 		insert into tbl_Yqna(clientId, ques, answer, qno)
+ 		values(#{clientId}, #{ques,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, seq_Yqna_qno.nextval)
+ 	</insert>
+ 	
+ 	<select id="search" resultType="Y_QnaVo">
+ 		<![CDATA[
+ 		select * from tbl_Yqna
+ 			where clientId = #{clientId}
+ 			and qno > 0 
+ 				order by qno desc
+ 		]]>
+ 	</select>
+ 	<select id="count" resultType= "int">
+ 		select count(*) from tbl_Yqna
+ 			where clientId = #{clientId}
+ 	</select>
+ 	<update id="update">
+ 		update tbl_Yqna set
+ 			ques = #{ques,jdbcType=VARCHAR},
+ 			answer = #{answer,jdbcType=VARCHAR}
+ 		where clientId = #{clientId}
+ 				and qno = ${qno}
+ 	</update>
+ 	
+ 	<update id="updateLikeCnt">
+ 		update tbl_Yqna set
+ 			likecount = likecount + #{count}
+ 			where qno = #{qno}
+ 	</update> 
+ 	<delete id="delQna"> 
+ 		delete from tbl_Yqna 
+ 		where clientId = #{clientId, jdbcType=VARCHAR} 
+ 		and qno = #{qno} 
+ 	</delete>
+ 	<delete id="delete">
+ 		delete from tbl_Yqna
+ 			where clientId = #{clientId, jdbcType=VARCHAR}
+ 	</delete>
+ </mapper>
+ 

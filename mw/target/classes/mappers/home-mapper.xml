@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="mappers.home">
+ 
+	<insert id="insert">
+		insert into tbl_Yhome(clientId,brideNm, groomNm, wedDate, wedTime, wed_addr, announce, coverPic)
+		values(#{clientId}, #{brideNm, jdbcType=VARCHAR}, #{groomNm,jdbcType=VARCHAR}, 
+				#{wedDate,jdbcType=VARCHAR}, #{wedTime, jdbcType=VARCHAR}, #{wed_addr,jdbcType=VARCHAR}, 
+				#{announce,jdbcType=VARCHAR}, #{coverPic,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="search" resultType="Y_HomeVo">
+		select * from tbl_Yhome
+		where clientId = #{clientId}
+	</select>
+	
+	<update id="update">
+		update tbl_Yhome set
+			brideNm = #{brideNm,jdbcType=VARCHAR},
+			groomNm = #{groomNm,jdbcType=VARCHAR},
+			wedDate = #{wedDate,jdbcType=VARCHAR},
+			wedTime = #{wedTime,jdbcType=VARCHAR},
+			wed_addr = #{wed_addr,jdbcType=VARCHAR},
+			announce = #{announce,jdbcType=VARCHAR},
+			<choose>
+				<when test="coverPic == null">
+					coverPic = coverPic
+				</when>
+				<when test="coverPic != null">
+					coverPic = #{coverPic}
+				</when>
+			</choose>
+		where clientId = #{clientId}
+	</update>
+	
+	<delete id="delete">
+		delete from tbl_Yhome 
+		where clientId = #{clientId}
+	</delete>
+ </mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="mappers.message">
+ 	<insert id="insert">
+ 		insert into tbl_Ymessage(writedate, message, mespic, writer, clientId)
+ 					values(#{writedate,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, 
+ 							#{mespic,jdbcType=VARCHAR}, #{writer,jdbcType=VARCHAR}, #{clientId})
+ 	</insert>
+ 	<select id="search" resultType="Y_MessageVo">
+ 		select * from tbl_Ymessage
+ 			where clientId = #{clientId}
+ 			order by writedate desc
+ 	</select>
+ 	<delete id="delete">
+		delete from tbl_Yhome 
+		where clientId = #{clientId}
+	</delete>
+ </mapper>

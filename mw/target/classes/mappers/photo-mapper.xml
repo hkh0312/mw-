@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="mappers.photo">
+ 
+	<insert id="insert">
+		insert into tbl_Yphoto(clientId, mespic, footer, footerpic)
+					values(#{clientId}, #{mespic,jdbcType=VARCHAR}, #{footer,jdbcType=VARCHAR}, #{footerpic,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="search" resultType="Y_PhotoVo">
+		select * from tbl_Yphoto
+			where clientId = #{clientId}	
+	</select>
+	
+	<update id="update">
+		update tbl_Yphoto set
+		<choose>
+			<when test="mespic == null">
+				mespic = mespic,
+			</when>
+			<when test="mespic != null">
+				mespic = #{mespic},
+			</when>				
+		</choose>
+				footer = #{footer},
+		<choose>
+			<when test="footerpic == null"> 
+				footerpic = footerpic
+			</when>
+			<when test="footerpic != null">
+				footerpic = #{footerpic}
+			</when>
+		</choose>		
+		where clientId = #{clientId}	
+	</update>
+	
+	<delete id="delete">
+		delete from tbl_Yphoto
+		where clientId = #{clientId}	
+	</delete>
+	
+</mapper>

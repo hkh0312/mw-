@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="mappers.admin">
+	
+	<!-- 등록하기 -->
+	<insert id="insertVendor">
+		insert into tbl_vendors(v_no, cateCode, v_name, v_pic, v_link, v_score, v_adress, v_number, v_type)
+		values(#{v_no},#{cateCode},#{v_name},#{v_pic,jdbcType=VARCHAR},#{v_link},#{v_score},#{v_adress},#{v_number},#{v_type})
+	</insert>
+
+	<!-- 관리자 목록보기 -->
+<!-- 	<select id="listVendor" resultType="VendorVo"> -->
+<!-- 		select * from tbl_vendors -->
+<!-- 			<if test="catecode neq null"> -->
+<!-- 				where catecode = #{catecode} -->
+<!-- 			</if> -->
+<!-- 		order by v_no -->
+<!-- 	</select> -->
+	
+	<select id="listVendor" resultType="VendorVo">
+		select * from
+			(select rownum rnum, a.* from
+				(select * from tbl_vendors
+ 				<if test="catecode neq null"> 
+ 					where catecode = #{catecode}				
+ 				</if>
+			order by v_no		
+			)a)
+		where rnum between ${pagingVo.startRow} and ${pagingVo.endRow}
+ 	</select>
+	
+	<!-- 카테고리 목록보기 -->
+	<select id="listCategory" resultType="CategoryVo">
+		select * 
+		from tbl_category
+		order by cateCode
+	</select>
+	
+	<!-- 삭제하기 -->	
+	<delete id="deleteVendor">
+		delete from tbl_vendors
+		where v_no= #{v_no}
+	</delete>
+	
+	<!-- 전체 글 갯수 -->
+	<select id="getCount" resultType="int">
+		select count(*) from tbl_vendors
+		<if test="catecode neq null"> 
+ 			where catecode = #{catecode}	
+ 		</if> 
+	</select>
+</mapper>
